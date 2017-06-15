@@ -5,29 +5,9 @@ import ContenderBio from './contender-bio';
 export default class Contenders extends React.Component {
   constructor(props) {
     super(props);
+}
 
-    this.getBio = this.getBio.bind(this);
-    this.hideBio = this.hideBio.bind(this);
-
-    this.state = {
-      showBio: false,
-      contenderBio: []
-    };
-  }
-
-  getBio(person) {
-    let contenderBio = Object.keys(person).map((value, index) => {
-      return [value] + ": " + person[value];
-    });
-    this.setState({ contenderBio: contenderBio });
-    this.setState({ showBio: true });
-  }
-
-  hideBio() {
-    this.setState({ showBio: false });
-  }
-
-  render() {
+render() {
     const contenders = this.props.houseArray.map((person, index) => {
       let nameArray = person.name.split(" ");
       let firstName = nameArray[0];
@@ -36,14 +16,14 @@ export default class Contenders extends React.Component {
           key={index}
           className="contender-name"
           id={firstName}
-          onClick={() => this.getBio(person)}
+          onClick={() => this.props.getBio(person)}
         >
           {this.props.houseArray[index].name}
         </li>
       );
     });
 
-    if (!this.state.showBio) {
+    if (!this.props.bioVisible) {
       return (
         <div className="contenders">
           <button onClick={this.props.hideContenders}>Hide Contenders</button>
@@ -52,7 +32,8 @@ export default class Contenders extends React.Component {
       );
     }
     return (
-        <ContenderBio contenderBio={this.state.contenderBio} hideBio={this.hideBio} />
+        <ContenderBio contenderBio={this.props.contenderBio} hideBio={this.props.hideBio} />
+        
     )
   }
 }
